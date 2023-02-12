@@ -2,23 +2,23 @@
 
 ## Installation:
 ```batch
-pip install event_manager
+pip install eventmanager
 ```
 
 ## Examples:
 
 ```python
-import event_manager
+import eventmanager
 
 def hello_world():
     print("Hello World")
 
-event_manager.bind(hello_world, "MyEvent")
+eventmanager.bind(hello_world, "MyEvent")
 ```
 
 ```python
->>> import event_manager
->>> event_manager.emit("MyEvent")
+>>> import eventmanager
+>>> eventmanager.emit("MyEvent")
 >>> "Hello World"
 ```
 

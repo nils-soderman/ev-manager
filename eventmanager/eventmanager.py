@@ -5,12 +5,12 @@ from types import FunctionType
 
 
 def get_event_dict(ensure_exists: bool = False) -> Union[dict, None]:
-    if ensure_exists and "event_manager_dict" not in globals():
+    if ensure_exists and "eventmanager_dict" not in globals():
         new_dict = {}
-        globals()["event_manager_dict"] = new_dict
+        globals()["eventmanager_dict"] = new_dict
         return new_dict
 
-    return globals().get("event_manager_dict")
+    return globals().get("eventmanager_dict")
 
 
 def get_event_functions(event: Hashable, ensure_exists: bool = False) -> Union[list[FunctionType], None]:
