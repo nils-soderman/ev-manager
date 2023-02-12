@@ -25,4 +25,4 @@ eventmanager.bind(hello_world, "MyEvent")
 
 
 ## Limitations:
-Events are per Python instance. So they will for example not be commuicating between different applications.
+Events are per Python instance. So they will for example not be communicating between different applications.
