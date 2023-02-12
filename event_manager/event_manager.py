@@ -30,6 +30,9 @@ def bind(event: Hashable, function: Callable):
         - event: The event to bind to, identifed by a hasable object, e.g. a string.
         - function: The function to bind
     """
+    if not callable(function):
+        raise TypeError(f"function must be callable, not {type(function)}")
+
     events = get_event_functions(event, True)
     if function not in events:
         events.append(function)
