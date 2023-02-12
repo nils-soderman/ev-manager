@@ -1,26 +1,26 @@
-# event-manager
+# ev-manager (Event Manager)
 
 Useful when working with DCCs like Maya, MotionBuilder, Unreal Engine, etc. and you want different tools/scripts to communicate with each other.
 
 ## Installation:
 ```batch
-pip install event_manager
+pip install ev-manager
 ```
 
 ## Examples:
 
 ```python
-import event_manager
+import ev_manager
 
 def hello_world():
     print("Hello World")
 
-event_manager.bind(hello_world, "MyEvent")
+ev_manager.bind(hello_world, "MyEvent")
 ```
 
 ```python
->>> import event_manager
->>> event_manager.emit("MyEvent")
+>>> import ev_manager
+>>> ev_manager.emit("MyEvent")
 >>> "Hello World"
 ```
 
