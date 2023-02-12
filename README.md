@@ -1,4 +1,4 @@
-# event_manager
+# eventmanager
 
 ## Installation:
 ```batch
