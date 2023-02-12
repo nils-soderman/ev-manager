@@ -65,7 +65,7 @@ def unbind_all(event: Hashable | None = None, function: Callable | None = None):
             events.clear()
 
 
-def is_bound(event: Hashable, function: callable):
+def is_bound(event: Hashable, function: Callable):
     """
     Check if a function is bound to a event
 
