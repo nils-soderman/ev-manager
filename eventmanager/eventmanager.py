@@ -1,10 +1,9 @@
 from __future__ import annotations
 
-from typing import Union, Hashable
-from types import FunctionType
+from typing import Hashable, Callable
 
 
-def get_event_dict(ensure_exists: bool = False) -> Union[dict, None]:
+def get_event_dict(ensure_exists: bool = False) -> dict | None:
     if ensure_exists and "eventmanager_dict" not in globals():
         new_dict = {}
         globals()["eventmanager_dict"] = new_dict
@@ -13,7 +12,7 @@ def get_event_dict(ensure_exists: bool = False) -> Union[dict, None]:
     return globals().get("eventmanager_dict")
 
 
-def get_event_functions(event: Hashable, ensure_exists: bool = False) -> Union[list[FunctionType], None]:
+def get_event_functions(event: Hashable, ensure_exists: bool = False) -> list[Callable] | None:
     event_dict = get_event_dict()
     if ensure_exists and event not in event_dict:
         new_list = []
@@ -23,7 +22,7 @@ def get_event_functions(event: Hashable, ensure_exists: bool = False) -> Union[l
     return event_dict.get(event)
 
 
-def bind(event: Hashable, function: FunctionType):
+def bind(event: Hashable, function: Callable):
     """
     Bind a function to a event
 
@@ -36,7 +35,7 @@ def bind(event: Hashable, function: FunctionType):
         events.append(function)
 
 
-def unbind(event: Hashable, function: FunctionType):
+def unbind(event: Hashable, function: Callable):
     """
     Unbind a function from a event
 
@@ -49,7 +48,7 @@ def unbind(event: Hashable, function: FunctionType):
         events.remove(function)
 
 
-def unbind_all(event: Union[Hashable, None] = None, function: Union[FunctionType, None] = None):
+def unbind_all(event: Hashable | None = None, function: Callable | None = None):
     """
     Unbind all function either globally or from a spesific event
 
@@ -66,7 +65,7 @@ def unbind_all(event: Union[Hashable, None] = None, function: Union[FunctionType
             events.clear()
 
 
-def is_bound(event: Hashable, function: FunctionType):
+def is_bound(event: Hashable, function: callable):
     """
     Check if a function is bound to a event
 
