@@ -11,6 +11,8 @@ call .\env\Scripts\activate.bat
 REM Go up one directory
 cd ..
 
+del /s /q dist
+
 REM Install build requirements
 pip install build --upgrade
 
