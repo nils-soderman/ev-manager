@@ -13,7 +13,7 @@ def get_event_dict(ensure_exists: bool = False) -> dict | None:
 
 
 def get_event_functions(event: Hashable, ensure_exists: bool = False) -> list[Callable] | None:
-    event_dict = get_event_dict()
+    event_dict = get_event_dict(ensure_exists)
     if ensure_exists and event not in event_dict:
         new_list = []
         event_dict[event] = new_list
