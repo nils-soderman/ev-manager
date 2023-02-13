@@ -24,5 +24,16 @@ ev_manager.bind("MyEvent", hello_world)
 >>> "Hello World"
 ```
 
+## Available functions:
+
+| Function | Description |
+| --- | --- |
+| `bind(event, function)` | Bind a function to an event. |
+| `unbind(event, function)` | Unbind a function from an event. |
+| `unbind_all(*, event, function)` | Either unbind all functions from an event or unbind a function from all events. |
+| `is_bound(event, function)` | Check if a function is bound to an event. |
+| `emit(event, *args, **kwargs)` | Call all functions bound to an event. |
+
+
 ## Limitations:
 Events are per Python instance. So they will for example not be communicating between different applications.
