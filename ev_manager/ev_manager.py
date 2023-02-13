@@ -4,6 +4,13 @@ from typing import Hashable, Callable
 
 
 def get_event_dict(ensure_exists: bool = False) -> dict | None:
+    """ 
+    Get the event dictionary. The dictionary is a reference to the actual dictionary, so it can be modified.
+    Returns None if the dictionary does not yet exist and ensure_exists is False.
+
+    ### Parameters:
+        - ensure_exists: If True, ensure that the dictionary exists.
+    """
     if ensure_exists and "eventmanager_dict" not in globals():
         new_dict = {}
         globals()["eventmanager_dict"] = new_dict
@@ -13,11 +20,22 @@ def get_event_dict(ensure_exists: bool = False) -> dict | None:
 
 
 def get_event_functions(event: Hashable, ensure_exists: bool = False) -> list[Callable] | None:
+    """ 
+    Get the list of functions bound to a event. The list is a reference to the actual list, so it can be modified.
+    Returns None if the event does not yet exist and ensure_exists is False.
+
+    ### Parameters:
+        - event: The event to get the functions for, identifed by a hasable object, e.g. a string.
+        - ensure_exists: If True, ensure that the event exists and return an empty list that can be modified.
+    """
     event_dict = get_event_dict(ensure_exists)
     if ensure_exists and event not in event_dict:
         new_list = []
         event_dict[event] = new_list
         return new_list
+
+    if not event_dict:
+        return None
 
     return event_dict.get(event)
 
@@ -33,9 +51,9 @@ def bind(event: Hashable, function: Callable):
     if not callable(function):
         raise TypeError(f"function must be callable, not {type(function)}")
 
-    events = get_event_functions(event, True)
-    if function not in events:
-        events.append(function)
+    functions = get_event_functions(event, True)
+    if functions and function not in functions:
+        functions.append(function)
 
 
 def unbind(event: Hashable, function: Callable):
@@ -46,29 +64,32 @@ def unbind(event: Hashable, function: Callable):
         - event: The event to unbind to, identifed by a hasable object, e.g. a string.
         - function: The function to unbind
     """
-    events = get_event_functions(event, False)
-    if events and function in events:
-        events.remove(function)
+    functions = get_event_functions(event, False)
+    if functions and functions and function in functions:
+        functions.remove(function)
 
 
-def unbind_all(event: Hashable | None = None, function: Callable | None = None):
+def unbind_all(*, event: Hashable | None = None, function: Callable | None = None):
     """
-    Unbind all function either globally or from a spesific event
+    Unbind all functions from a event or unbind a function from all events.
 
     ### Parameters:
-        - event: The event to unbind all functions from, if event is None this function will unbind all functions from all events.
+        - event: If provided, unbind all functions from this event
+        - function: If provided, unbind this function from all events
     """
-    if event is None:
+    if event:
+        functions = get_event_functions(event, False)
+        if functions:
+            functions.clear()
+    if function:
         event_dict = get_event_dict(False)
         if event_dict:
-            event_dict.clear()
-    else:
-        events = get_event_functions(event, False)
-        if events:
-            events.clear()
+            for functions in event_dict.values():
+                if function in functions:
+                    functions.remove(function)
 
 
-def is_bound(event: Hashable, function: Callable):
+def is_bound(event: Hashable, function: Callable) -> bool:
     """
     Check if a function is bound to a event
 
@@ -76,13 +97,21 @@ def is_bound(event: Hashable, function: Callable):
         - event: The event to unbind to, identifed by a hasable object, e.g. a string.
         - function: The function to unbind
     """
-    events = get_event_functions(event, False)
-    if events:
-        return function in events
+    functions = get_event_functions(event, False)
+    if functions:
+        return function in functions
     return False
 
 
 def emit(event: Hashable, *args, **kwargs):
+    """
+    Call all functions bound to a specific event.
+
+    ### Parameters:
+        - event: The event to emit, identifed by a hasable object, e.g. a string.
+        - args: Optional arguments to pass to the bound functions
+        - kwargs: Optional keyword arguments to pass to the bound functions
+    """
     functions = get_event_functions(event)
     if functions:
         for function in functions:
