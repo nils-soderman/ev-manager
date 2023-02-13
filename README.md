@@ -15,7 +15,7 @@ import ev_manager
 def hello_world():
     print("Hello World")
 
-ev_manager.bind(hello_world, "MyEvent")
+ev_manager.bind("MyEvent", hello_world)
 ```
 
 ```python
