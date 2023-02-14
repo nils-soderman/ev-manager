@@ -52,7 +52,7 @@ def bind(event: Hashable, function: Callable):
         raise TypeError(f"function must be callable, not {type(function)}")
 
     functions = get_event_functions(event, True)
-    if functions and function not in functions:
+    if functions is not None and function not in functions:
         functions.append(function)
 
 
@@ -65,7 +65,7 @@ def unbind(event: Hashable, function: Callable):
         - function: The function to unbind
     """
     functions = get_event_functions(event, False)
-    if functions and functions and function in functions:
+    if functions and function in functions:
         functions.remove(function)
 
 
