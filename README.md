@@ -9,11 +9,37 @@ pip install ev-manager
 
 ## Examples:
 
+### Using classes:
+
+```python
+""" my_base_module.py """
+
+from typing import Callable
+from ev_manager import Event
+
+class ExampleEvent(Event[Callable[[int], None]]):
+    pass
+
+def my_callback(value: int):
+    print(f"Number: {value}")
+
+ExampleEvent.bind(my_callback)
+```
+
+```python
+>>> from my_base_module import ExampleEvent
+>>> ExampleEvent.emit(5)
+>>> "Number: 5"
+```
+
+
+### Using functions:
+
 ```python
 import ev_manager
 
 def hello_world():
-    print("Hello World")
+    print("Hello World!")
 
 ev_manager.bind("MyEvent", hello_world)
 ```
@@ -21,8 +47,9 @@ ev_manager.bind("MyEvent", hello_world)
 ```python
 >>> import ev_manager
 >>> ev_manager.emit("MyEvent")
->>> "Hello World"
+>>> "Hello World!"
 ```
+
 
 ## Available functions:
 
