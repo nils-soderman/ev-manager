@@ -12,7 +12,7 @@ pip install ev-manager
 ### Using classes:
 
 ```python
-""" my_base_module.py """
+""" my_module.py """
 
 from typing import Callable
 from ev_manager import Event
@@ -27,7 +27,7 @@ ExampleEvent.bind(my_callback)
 ```
 
 ```python
->>> from my_base_module import ExampleEvent
+>>> from my_module import ExampleEvent
 >>> ExampleEvent.emit(5)
 >>> "Number: 5"
 ```
