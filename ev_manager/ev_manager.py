@@ -3,9 +3,10 @@ from __future__ import annotations
 from typing import Hashable, Callable
 
 
-def get_event_dict(ensure_exists: bool = False) -> dict | None:
+def get_event_dict(ensure_exists: bool = False) -> dict[Hashable, list[Callable]] | None:
     """ 
-    Get the event dictionary. The dictionary is a reference to the actual dictionary, so it can be modified.
+    Get the event dictionary.
+    The dictionary is a reference to the actual dictionary, so it can be modified.
     Returns None if the dictionary does not yet exist and ensure_exists is False.
 
     ### Parameters:
@@ -21,7 +22,8 @@ def get_event_dict(ensure_exists: bool = False) -> dict | None:
 
 def get_event_functions(event: Hashable, ensure_exists: bool = False) -> list[Callable] | None:
     """ 
-    Get the list of functions bound to a event. The list is a reference to the actual list, so it can be modified.
+    Get the list of functions bound to a event.
+    The list is a reference to the actual list, so it can be modified.
     Returns None if the event does not yet exist and ensure_exists is False.
 
     ### Parameters:
@@ -29,13 +31,13 @@ def get_event_functions(event: Hashable, ensure_exists: bool = False) -> list[Ca
         - ensure_exists: If True, ensure that the event exists and return an empty list that can be modified.
     """
     event_dict = get_event_dict(ensure_exists)
+    if not event_dict:
+        return None
+
     if ensure_exists and event not in event_dict:
         new_list = []
         event_dict[event] = new_list
         return new_list
-
-    if not event_dict:
-        return None
 
     return event_dict.get(event)
 
@@ -51,8 +53,11 @@ def bind(event: Hashable, function: Callable):
     if not callable(function):
         raise TypeError(f"function must be callable, not {type(function)}")
 
+    if is_bound(event, function):
+        return
+
     functions = get_event_functions(event, True)
-    if functions is not None and function not in functions:
+    if functions is not None:
         functions.append(function)
 
 
@@ -83,7 +88,8 @@ def unbind_all(*, event: Hashable | None = None, function: Callable | None = Non
     ### Parameters:
         - event: If provided, unbind all functions from this event
         - function: If provided, unbind this function from all events
-        - by_ref: If True, unbind the function by reference, otherwise unbind by name (Only applicable if function is provided)
+        - by_ref: If True, unbind the function by reference, 
+        otherwise unbind by name (Only applicable if function is provided)
     """
     if event:
         functions = get_event_functions(event, False)
