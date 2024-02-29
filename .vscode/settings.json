@@ -1,5 +1,6 @@
 {
     "files.exclude": {
         "**/**.egg-info": true
-    }
+    },
+    "python.analysis.typeCheckingMode": "basic"
 }
