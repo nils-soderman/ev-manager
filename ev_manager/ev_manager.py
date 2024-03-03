@@ -31,7 +31,7 @@ def get_event_functions(event: Hashable, ensure_exists: bool = False) -> list[Ca
         - ensure_exists: If True, ensure that the event exists and return an empty list that can be modified.
     """
     event_dict = get_event_dict(ensure_exists)
-    if not event_dict:
+    if event_dict is None:
         return None
 
     if ensure_exists and event not in event_dict:
